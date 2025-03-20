@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap");
+
+.header-area {
+  font-family: "Kaushan Script", sans-serif;
+}
+
+.navbar {
+  background-color: white;
+  transition: all 0.5s ease;
+}
+
+.navbar-shrink {
+  padding: 20px 0;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-size: 30px;
+  color: #a800a8;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.navbar-nav .nav-link {
+  font-size: 18px;
+  color: black;
+}
+
+.home-text h1 {
+  font-size: 60px;
+  color: black;
+}
+
+.home-btn .btn-1 {
+  background-color: #a800a8;
+  color: white;
+  padding: 15px 40px;
+  border-radius: 30px;
+  transition: all 0.3s;
+}
+
+.home-btn .btn-1:hover {
+  background-color: white;
+  color: #a800a8;
+}
