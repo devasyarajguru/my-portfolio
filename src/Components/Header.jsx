@@ -1,141 +1,153 @@
-// src/components/Header.js
-import React, { useEffect } from 'react';
-import $ from 'jquery';
-import 'bootstrap';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel';
-import 'magnific-popup/dist/magnific-popup.css';
-import 'magnific-popup';
-import 'isotope-layout/dist/isotope.pkgd.min.js';
-import Parallax from 'parallax-js';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "../CSS/Header.css";
+import OwlCarousel from "react-owl-carousel";
+import $ from "jquery";
+import "magnific-popup";
 
 const Header = () => {
+  // Navbar Toggle State
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+
+  // Handle Scroll Effect
   useEffect(() => {
-    // Initialize Parallax
-    if ($("#parallax").length) {
-      var scene = document.getElementById("parallax");
-      new Parallax(scene);
-    }
-
-    // Initialize Owl Carousel
-    $('.testimonial-slider').owlCarousel({
-      loop: true,
-      margin: 0,
-      autoplay: true,
-      responsiveClass: true,
-      responsive: {
-        0: { items: 1 },
-        600: { items: 2 },
-        1000: { items: 3 }
-      }
-    });
-
-    // Initialize Magnific Popup
-    $('.image-popup').magnificPopup({
-      type: 'image',
-      gallery: { enabled: true }
-    });
-
-    // Initialize Isotope
-    let $btns = $('.img-gallery .sortBtn .filter-btn');
-    $btns.click(function (e) {
-      $('.img-gallery .sortBtn .filter-btn').removeClass('active');
-      e.target.classList.add('active');
-      let selector = $(e.target).attr('data-filter');
-      $('.img-gallery .grid').isotope({ filter: selector });
-      return false;
-    });
-
-    // ScrollIt
-    $.scrollIt({ topOffset: -50 });
-
-    // Hide Mobile Navbar on Link Click
-    $(".nav-link").on("click", function () {
-      $(".navbar-collapse").collapse("hide");
-    });
-
-    // Navbar Shrink on Scroll
-    $(window).on("scroll", function () {
-      if ($(this).scrollTop() > 90) {
-        $(".navbar").addClass("navbar-shrink");
+    const handleScroll = () => {
+      const navbar = document.querySelector(".navbar");
+      if (window.scrollY > 50) {
+        navbar.classList.add("navbar-shrink");
       } else {
-        $(".navbar").removeClass("navbar-shrink");
+        navbar.classList.remove("navbar-shrink");
       }
-    });
+    };
+    window.addEventListener("scroll", handleScroll);
 
-    // Skills Meter
-    $(window).scroll(function () {
-      var hT = $("#skill-bar-wrapper").offset().top;
-      var hH = $("#skill-bar-wrapper").outerHeight();
-      var wH = $(window).height();
-      var wS = $(this).scrollTop();
+    // Cleanup function
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-      if (wS > (hT + hH - 1.4 * wH)) {
-        jQuery('.skillbar-container').each(function () {
-          jQuery(this).find('.skills').animate({
-            width: jQuery(this).attr('data-percent')
-          }, 5000);
-        });
-      }
+  // Initialize Magnific Popup for Portfolio Items
+  useEffect(() => {
+    $(".popup-link").magnificPopup({
+      type: "image",
+      gallery: { enabled: true },
     });
   }, []);
 
   return (
     <header className="header-area">
+      {/* Navbar */}
       <nav className="navbar navbar-expand-lg fixed-top">
         <div className="container">
-          <a href="#index.html" className="navbar-brand">coderMastery</a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+          <Link to="/" className="navbar-brand">
+            coderMastery
+          </Link>
+
+          <button
+            className="navbar-toggler"
+            type="button"
+            onClick={() => setIsNavbarOpen(!isNavbarOpen)}
+          >
             <i className="fa-solid fa-bars"></i>
           </button>
-          <div className="collapse navbar-collapse" id="collapsibleNavbar">
+
+          <div className={`collapse navbar-collapse ${isNavbarOpen ? "show" : ""}`} id="collapsibleNavbar">
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item"><a href="#home" className="nav-link active" data-scroll-nav="0">home</a></li>
-              <li className="nav-item"><a href="#about" className="nav-link" data-scroll-nav="1">about</a></li>
-              <li className="nav-item"><a href="#services" className="nav-link" data-scroll-nav="2">services</a></li>
-              <li className="nav-item"><a href="#portfolio" className="nav-link" data-scroll-nav="3">portfolio</a></li>
-              <li className="nav-item"><a href="#testimonials" className="nav-link" data-scroll-nav="4">testimonials</a></li>
-              <li className="nav-item"><a href="#pricing" className="nav-link" data-scroll-nav="5">pricing</a></li>
-              <li className="nav-item"><a href="#contact" className="nav-link" data-scroll-nav="6">contact</a></li>
+              <li className="nav-item">
+                <a href="#home" className="nav-link active" data-scroll-nav="0">
+                  Home
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#about" className="nav-link" data-scroll-nav="1">
+                  About
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#services" className="nav-link" data-scroll-nav="2">
+                  Services
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#portfolio" className="nav-link" data-scroll-nav="3">
+                  Portfolio
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#testimonials" className="nav-link" data-scroll-nav="4">
+                  Testimonials
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#pricing" className="nav-link" data-scroll-nav="5">
+                  Pricing
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#contact" className="nav-link" data-scroll-nav="6">
+                  Contact
+                </a>
+              </li>
             </ul>
           </div>
         </div>
       </nav>
 
+      {/* Hero Section */}
       <section className="home" id="home" data-scroll-index="0">
         <div className="header-content d-flex align-items-center">
           <div id="parallax">
-            {/* Parallax shapes */}
+            {[...Array(10).keys()].map((i) => (
+              <div key={i} className={`header-shape shape-${i + 1}`}>
+                <img
+                  src={`https://i.postimg.cc/${["J7bRR2cK/shape-1.png", "437TqLx6/shape-2.png", "63Cx58RT/shape-3.png", "bNyfpNvN/shape-4.png", "9FL5M54P/shape-5.png", "sgLkYY4v/shape-6.png"][i % 6]}`}
+                  alt={`shape-${i + 1}`}
+                />
+              </div>
+            ))}
           </div>
+
           <div className="container">
             <div className="row align-items-center">
               <div className="col-lg-6">
                 <div className="home-text">
                   <h4>HELLO, I'M</h4>
                   <h1>PETER PARKER</h1>
-                  <p>A freelancer SpiderMan & Web Developer</p>
+                  <p>A freelancer Spider-Man & Web Developer</p>
                   <div className="home-btn">
-                    <a href="#" className="btn-1">View my Work</a>
+                    <a href="#portfolio" className="btn-1">
+                      View my Work
+                    </a>
                   </div>
                 </div>
               </div>
+
               <div className="col-lg-6">
                 <div className="home-img d-none d-lg-block">
-                  <img src="https://i.postimg.cc/PqZ3bt0G/profile-pic.png" alt="Mark Parker" />
+                  <img src="https://i.postimg.cc/PqZ3bt0G/profile-pic.png" alt="Peter Parker" />
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Social Icons */}
           <div className="header-social">
             <div className="container">
               <div className="row">
                 <div className="col-lg-12">
                   <div className="header-social-icon">
                     <ul>
-                      <li><a href="#"><i className="fa-brands fa-facebook"></i></a></li>
-                      <li><a href="#"><i className="fa-brands fa-x-twitter"></i></a></li>
-                      <li><a href="#"><i className="fa-brands fa-github"></i></a></li>
-                      <li><a href="#"><i className="fa-brands fa-linkedin"></i></a></li>
+                      <li>
+                        <a href="#"><i className="fa-brands fa-facebook"></i></a>
+                      </li>
+                      <li>
+                        <a href="#"><i className="fa-brands fa-x-twitter"></i></a>
+                      </li>
+                      <li>
+                        <a href="#"><i className="fa-brands fa-github"></i></a>
+                      </li>
+                      <li>
+                        <a href="#"><i className="fa-brands fa-linkedin"></i></a>
+                      </li>
                     </ul>
                   </div>
                 </div>
